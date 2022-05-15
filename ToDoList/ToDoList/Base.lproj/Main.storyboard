@@ -3,7 +3,6 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
-        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -34,7 +33,7 @@
                     <navigationItem key="navigationItem" title="My To-Dos" id="Z3g-TO-dQl">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="aPq-aa-tI0">
                             <connections>
-                                <segue destination="qab-cf-ZgY" kind="presentation" id="pS7-qX-6hw"/>
+                                <segue destination="qab-cf-ZgY" kind="presentation" id="97a-Fc-AVc"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -46,7 +45,7 @@
         <!--New To-Do-->
         <scene sceneID="Mqh-2N-pLr">
             <objects>
-                <tableViewController id="QW2-en-rym" sceneMemberID="viewController">
+                <tableViewController id="QW2-en-rym" customClass="ToDoDetailTableViewController" customModule="ToDoList" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="B9i-Q8-nQT">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -61,22 +60,31 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="54.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="SSk-tE-9Uw">
+                                                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SSk-tE-9Uw">
                                                     <rect key="frame" x="10" y="10" width="394" height="34.5"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="923-Hg-AYW">
-                                                            <rect key="frame" x="0.0" y="0.0" width="20" height="34.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="28" height="34.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                            <state key="normal" image="checkmark.circle.fill" catalog="system"/>
+                                                            <state key="normal" image="circle" catalog="system">
+                                                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="24"/>
+                                                            </state>
                                                             <state key="selected" image="checkmark.circle.fill" catalog="system">
                                                                 <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="24"/>
                                                             </state>
+                                                            <connections>
+                                                                <action selector="isCompleteButtonTapped:" destination="QW2-en-rym" eventType="touchUpInside" id="c1E-PR-h41"/>
+                                                            </connections>
                                                         </button>
                                                         <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Remind me to ..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OAR-84-8hS">
                                                             <rect key="frame" x="28" y="0.0" width="366" height="34.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits"/>
+                                                            <connections>
+                                                                <action selector="returnPressed:" destination="QW2-en-rym" eventType="primaryActionTriggered" id="ygG-cd-Uvw"/>
+                                                                <action selector="textEditingChanged:" destination="QW2-en-rym" eventType="editingChanged" id="H4w-DD-8yl"/>
+                                                            </connections>
                                                         </textField>
                                                     </subviews>
                                                 </stackView>
@@ -133,8 +141,11 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="216.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Qyj-0u-PUJ">
+                                                <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" style="wheels" translatesAutoresizingMaskIntoConstraints="NO" id="Qyj-0u-PUJ">
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="216.5"/>
+                                                    <connections>
+                                                        <action selector="datePickerChanged:" destination="QW2-en-rym" eventType="primaryActionTriggered" id="xxt-3x-DHP"/>
+                                                    </connections>
                                                 </datePicker>
                                             </subviews>
                                             <constraints>
@@ -159,7 +170,7 @@
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="C0Y-fT-UeD">
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="200"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                    <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                     <color key="textColor" systemColor="labelColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -193,16 +204,25 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="dueDateDatePicker" destination="Qyj-0u-PUJ" id="QoQ-a6-J9b"/>
+                        <outlet property="dueDateLabel" destination="rpL-PW-oLe" id="leT-XZ-zXR"/>
+                        <outlet property="isCompleteButton" destination="923-Hg-AYW" id="GXf-Eu-VvI"/>
+                        <outlet property="notesTextView" destination="C0Y-fT-UeD" id="yet-zg-uR5"/>
+                        <outlet property="saveButton" destination="lnF-0r-ixc" id="m5P-Y8-7Ad"/>
+                        <outlet property="titleTextField" destination="OAR-84-8hS" id="xoT-lc-UkN"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Xx-fx-Hkl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="Bju-0T-YGA" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2193" y="106"/>
+            <point key="canvasLocation" x="2169.5652173913045" y="105.80357142857143"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="V0d-07-da1">
             <objects>
                 <navigationController id="qab-cf-ZgY" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="rn5-mL-2I2"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="rua-5Q-0ju">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -234,6 +254,7 @@
     </scenes>
     <resources>
         <image name="checkmark.circle.fill" catalog="system" width="128" height="121"/>
+        <image name="circle" catalog="system" width="128" height="121"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
